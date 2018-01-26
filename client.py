@@ -18,6 +18,10 @@ class ClientNamespace(BaseNamespace):
         logger.info('on_aaa ' + str(args))
 
 socketIO = SocketIO('localhost', 5000)
-chat_namespace = socketIO.define(ClientNamespace, '/client')
+client_namespace = socketIO.define(ClientNamespace, '/client')
 
-socketIO.wait(seconds=1)
+try:
+    socketIO.wait()
+except KeyboardInterrupt:
+    logger.info('exiting')
+
