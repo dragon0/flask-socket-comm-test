@@ -12,9 +12,10 @@ def index():
 @socketio.on('connect', namespace='/browser')
 def browser_connect():
     app.logger.info('browser connected ')
+    emit('handshake', {'data': 'I\'m connected!'}, namespace='/browser');
 
 @socketio.on('disconnect', namespace='/browser')
-def browser_connect():
+def browser_disconnect():
     app.logger.info('browser disconnected ')
 
 @socketio.on('value changed', namespace='/browser')
@@ -25,11 +26,11 @@ def browser_value_changed(message):
 def client_connect():
     session['client'] = 'something??'
     app.logger.info('client connected ' + session['client'])
-    emit('client connected', {'msg': session['client']}, namespace='/browser')
+    emit('client connected', {'msg': session['client']}, namespace='/browser', broadcast=True)
     emit('aaa', {'msg': session['client']}, namespace='/client')
 
 @socketio.on('disconnect', namespace='/client')
-def client_connect():
+def client_disconnect():
     app.logger.info('client disconnected ')
 
 if __name__ == '__main__':

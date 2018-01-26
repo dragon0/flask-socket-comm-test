@@ -6,6 +6,7 @@
     <script src="static/jquery.min.js"></script>
     <script type="text/javascript" src="static/socket.io.min.js"></script>
     <script type="text/javascript">
+localStorage.debug = 'socket.io-client:socket';
     $(document).ready(function(){
 
       var socket = io('http://' + document.domain + ':' + location.port + '/browser');
@@ -19,6 +20,11 @@
               throttle: 0
             });
       });
+
+      socket.on('handshake', function() {
+        console.log('connecteded');
+      });
+
 
       socket.on('client connected', function(){
         console.log('client connected');
